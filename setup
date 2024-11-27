@@ -20,7 +20,11 @@ useradd -m -d /var/lib/webgen -r -s /bin/sh webgen
 # and so, does not need a login shell and provides basic security protections through user permissions
 
 # Create bin and HTML folders
-mkdir /var/lib/webgen/{bin,HTML}
+mkdir /var/lib/webgen/{bin,HTML,documents}
+
+# Create demo files in documents
+echo "Hello from file 1" > /var/lib/webgen/documents/file-one
+echo "Hello from file 2" > /var/lib/webgen/documents/file-two
 
 # Move generate_index into bin folder
 mv generate_index /var/lib/webgen/bin
