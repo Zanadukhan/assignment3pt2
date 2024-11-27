@@ -1,0 +1,111 @@
+#!/bin/bash
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+# install necessary packages.
+
+pkge_installer () {
+pacman -S --noconfirm nginx
+pacman -S --noconfirm ufw
+}
+
+user_file_setup () {
+# Create webgen system user
+useradd -m -d /var/lib/webgen -r -s /bin/sh webgen
+
+# It is a good idea to create a system user because this user is meant to only carry out this task
+# and so, does not need a login shell and provides basic security protections through user permissions
+
+# Create bin and HTML folders
+mkdir /var/lib/webgen/{bin,HTML}
+
+# Move generate_index into bin folder
+mv generate_index /var/lib/webgen/bin
+
+# Change ownership to webgen
+chown -R webgen: /var/lib/webgen/ 
+
+chmod 700 /var/lib/webgen/bin/generate_index
+}
+
+systemD_setup () {
+# Move unit files into /etc/systemd/system
+mv unit-files/generate-index.{service,timer} /etc/systemd/system
+
+# Start/enable unit files
+systemctl start generate-index.service
+systemctl start generate-index.timer
+
+systemctl enable generate-index.service
+systemctl enable generate-index.timer
+
+# If you want to check if your service/timer has been enabled, you can run these commands to check
+
+# systemctl status generate-index.service
+
+# status will say that its loaded and waiting to be triggered by timer
+
+
+# systemctl status generate-index.timer
+
+# status will say that its active (waiting)
+
+}
+
+nginx_setup () {
+# move preconfigured nginx files into webgen's nginx
+rm -r /etc/nginx
+mv nginx /etc
+# replace IP address name in server block
+ipv4="server_name $1;"
+server_name=$(grep server_name /etc/nginx/sites-available/webgen.conf)
+sed -i "s/$server_name/$ipv4/" /etc/nginx/sites-available/webgen.conf
+mkdir /etc/nginx/sites-enabled
+ln -s /etc/nginx/sites-available/webgen.conf /etc/nginx/sites-enabled/webgen.conf
+
+systemctl start nginx.service
+systemctl enable nginx.service
+
+# To check if nginx.service is running properly
+
+# systemctl status nginx.service
+
+# Status will display as active(running)
+}
+
+ufw_config () {
+# Allow SSH (limit) and HTTP connections through firewall
+ufw allow ssh
+ufw limit ssh
+ufw allow http
+
+# Enable firewall
+ufw enable
+systemctl enable --now ufw.service
+
+# To check if ufw is enabled
+# ufw status verbose
+
+# Status will say that it is 'active' along with configuration
+}
+
+
+main () {
+pkge_installer
+user_file_setup
+systemD_setup
+nginx_setup $1
+ufw_config
+
+echo Index.html is now being served
+
+}
+
+
+
+
+main $1
+

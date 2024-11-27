@@ -1,0 +1,11 @@
+[Unit]
+Description=This will automatically run the "generate-index.service" at 05:00 for the webgen user, only if the user is connected to the network
+
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/var/lib/webgen/bin/generate_index
+User=webgen
+Group=webgen
