@@ -4,7 +4,24 @@ This script creates a system user called "webgen", setup a preconfigured NGINX s
 
 
 ## Prerequisites:
-1. You MUST have updated your arch linux installation to the latest version by running
+1. Create two droplets in digitalocean with these settings
+    ```
+    Region = SFO3
+    image = latest release of arch linux for cloud
+    specs = basic - premium AMD - $7/m
+    ```
+2. Create a load balancer attached to the new droplet
+    ```
+    type = regional
+    region = SF03
+    visibility = External
+    tag = web
+
+
+![digocean](./images/loadbalanced.jpg)
+
+
+3. You MUST have updated your arch linux installation in BOTH droplets to the latest version by running
 ```bash
 sudo pacman -Syu
 ```
@@ -12,21 +29,24 @@ and reload your droplet with
 ```bash
 sudo systemctl reboot
 ```
-once the droplet is online again, you can proceed with running this script
 
-2. The ip address of the droplet that you would like to use to setup
+4. The ip address of the droplet that you would like to use to setup
 
 ![dropletip](./images/dropip.png)
 
+5. Clone this repository in both droplets
+
 ## How to Run Script
 
-Simply run the script with this command but subsitute with your ip address
+1. Simply run the script with this command but subsitute with your ip address
 
 ```bash
 sudo bash setup <your-ip-address-here>
 ```
+2. Repeat in second droplet
 
-Once the script has been executed, paste your ip into the address bar of your browser and you will see this page
+
+Once the script has been executed in BOTH droplets, paste your load balancer's ip into the address bar of your browser and you will see this page
 
 ![livepage](./images/livesite.jpg)
 
