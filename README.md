@@ -30,7 +30,7 @@ and reload your droplet with
 sudo systemctl reboot
 ```
 
-4. The ip address of the droplet that you would like to use to setup
+4. The ip address of your droplets that you would like to use to setup
 
 ![dropletip](./images/dropip.png)
 
@@ -48,7 +48,7 @@ sudo bash setup <your-ip-address-here>
 
 Once the script has been executed in BOTH droplets, paste your load balancer's ip into the address bar of your browser and you will see this page
 
-![livepage](./images/livesite.jpg)
+![livepage](./images/livebalance.jpg)
 
 
 
