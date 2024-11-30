@@ -10,13 +10,13 @@ This script creates a system user called "webgen", setup a preconfigured NGINX s
     image = latest release of arch linux for cloud
     specs = basic - premium AMD - $7/m
     ```
-2. Create a load balancer attached to the new droplet
+2. Create a load balancer attached to the new droplets
     ```
     type = regional
     region = SF03
     visibility = External
     tag = web
-
+    ```
 
 ![digocean](./images/loadbalanced.jpg)
 
@@ -52,4 +52,4 @@ Once the script has been executed in BOTH droplets, paste your load balancer's i
 
 
 
-Congratulations! you will now have a functioning webserver
+Congratulations! you will now have a functioning web server with a load balancer

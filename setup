@@ -41,10 +41,8 @@ mv unit-files/generate-index.{service,timer} /etc/systemd/system
 
 # Start/enable unit files
 systemctl start generate-index.service
-systemctl start generate-index.timer
+systemctl enable --now generate-index.timer
 
-systemctl enable generate-index.service
-systemctl enable generate-index.timer
 
 # If you want to check if your service/timer has been enabled, you can run these commands to check
 
@@ -70,8 +68,8 @@ sed -i "s/$server_name/$ipv4/" /etc/nginx/sites-available/webgen.conf
 mkdir /etc/nginx/sites-enabled
 ln -s /etc/nginx/sites-available/webgen.conf /etc/nginx/sites-enabled/webgen.conf
 
-systemctl start nginx.service
-systemctl enable nginx.service
+
+systemctl enable --now nginx.service
 
 # To check if nginx.service is running properly
 
