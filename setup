@@ -14,7 +14,7 @@ pacman -S --noconfirm ufw
 
 user_file_setup () {
 # Create webgen system user
-useradd -m -d /var/lib/webgen -r -s /bin/sh webgen
+useradd -m -d /var/lib/webgen -r -s /sbin/nologin webgen
 
 # It is a good idea to create a system user because this user is meant to only carry out this task
 # and so, does not need a login shell and provides basic security protections through user permissions
