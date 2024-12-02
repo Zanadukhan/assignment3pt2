@@ -32,7 +32,7 @@ sudo systemctl reboot
 
 4. The ip address of your droplets that you would like to use to setup
 
-![dropletip](./images/dropip.png)
+![dropletip](./images/dropip.jpg)
 
 5. Clone this repository in both droplets
 
